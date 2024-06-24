@@ -4,7 +4,8 @@ import Indicator from './components/Indicator';
 import Summary from './components/Summary';
 import BasicTable from './components/BasicTable';
 import { Typography } from '@mui/material';
-
+import WeatherChart from './components/WeatherChart';
+import ControlPanel from './components/ControlPanel';
 
 
 function App() {
@@ -26,6 +27,12 @@ function App() {
 			</Grid>
 			<Grid xs={12} md={6} lg={12} >
 				<BasicTable />
+			</Grid>
+			<Grid xs={12} lg={2}>
+				<ControlPanel />
+			</Grid>
+			<Grid xs={12} lg={10}>
+				<WeatherChart></WeatherChart>
 			</Grid>
 		</Grid>
 
