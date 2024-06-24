@@ -7,6 +7,7 @@ import { Typography } from '@mui/material';
 import WeatherChart from './components/WeatherChart';
 import ControlPanel from './components/ControlPanel';
 import { useEffect, useState } from 'react';
+import AnimatedGif from './components/AnimatedGif'
 
 // https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=94efcdd86dca01d07bbf7e34431dc607
 function App() {
@@ -136,35 +137,31 @@ function App() {
 	return (
 
 		<Grid container spacing={5}>
-
-			<Grid xs={6} lg={2}>
-				{indicators[0]}
-
-				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
-			</Grid>
-
-			<Grid xs={6} lg={2}>
-				{indicators[1]}
-
-				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
-			</Grid>
-
-			<Grid xs={6} lg={2}>
-				{indicators[2]}
-
-				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
-			</Grid>
 			<Grid xs={12} md={4} lg={12}>
 				<Typography variant="h4" component="h1" gutterBottom>
 					<strong>Guayaquil Weather</strong>
 				</Typography>
 			</Grid>
+			<Grid xs={6} lg={3}>
+				{indicators[0]}
 
-			<Grid xs={12} md={4} lg={12}>
-				<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
+				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
 			</Grid>
-			<Grid xs={12} md={4} lg={12}>
-				<Summary />
+
+			<Grid xs={6} lg={3}>
+				{indicators[1]}
+
+				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
+			</Grid>
+
+			<Grid xs={6} lg={3}>
+				{indicators[2]}
+
+				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
+			</Grid>
+
+			<Grid xs={12} md={4} lg={3}>
+				<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
 			</Grid>
 			<Grid xs={12} lg={2}>
 				<ControlPanel />
@@ -172,10 +169,13 @@ function App() {
 			<Grid xs={12} lg={10}>
 				<WeatherChart></WeatherChart>
 			</Grid>
-			<Grid xs={12} lg={8}>
+			<Grid xs={12} lg={12}>
 				<BasicTable input={dataTable}></BasicTable>
 			</Grid>
+
 		</Grid>
+
+		
 
 	);
 }

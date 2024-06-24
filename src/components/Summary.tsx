@@ -8,6 +8,7 @@ import sunrise from '../assets/sunrise.jpeg'
 
 export default function Summary() {
     return (
+        
         <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
                 <CardMedia
