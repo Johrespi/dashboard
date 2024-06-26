@@ -23,7 +23,7 @@ function App() {
 
 	useEffect(() => {
 
-		async function fetchData() {
+		(async ()=>{
 
 
 			{/* Del LocalStorage, obtiene el valor de las claves openWeatherMap y expiringTime*/ }
@@ -42,7 +42,7 @@ function App() {
              (1) La estampa de tiempo de expiración (expiringTime) es nulo   
              (2) La estampa de tiempo actual es mayor al tiempo de expiración */}
 
-			if (expiringTime === null || nowTime > parseInt(expiringTime)) {
+			if (expiringTime === null || nowTime > parseInt(expiringTime)) { 
 
 
 				{/* Request */ }
@@ -61,7 +61,7 @@ function App() {
 
 			{/* XML Parser */ }
 
-			if (savedTextXML != null) {
+			if (savedTextXML != null) { 
 
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(savedTextXML, "application/xml");
@@ -74,6 +74,10 @@ function App() {
 
 				{/* Análisis del XML */ }
 
+				let city = xml.getElementsByTagName("name")[0].innerHTML
+				dataToIndicators.push(["City", "name", city])
+				
+				
 				let location = xml.getElementsByTagName("location")[1]
 
 				let geobaseid = location.getAttribute("geobaseid")
@@ -127,9 +131,9 @@ function App() {
 			}//
 
 
-		}
+		})()
 
-		fetchData();
+	
 
 	}, [])
 
@@ -156,6 +160,11 @@ function App() {
 
 			<Grid xs={6} lg={3}>
 				{indicators[2]}
+
+				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
+			</Grid>
+			<Grid xs={6} lg={3}>
+				{indicators[3]}
 
 				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
 			</Grid>
