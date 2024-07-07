@@ -14,10 +14,13 @@ export default function Indicator(config: Config) {
             sx={{
               p: 2,
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              backgroundColor: 'skyblue',
+              opacity: 0.9, 
+              background: 'linear-gradient(to right, skyblue, white)',
             }}
           >
-            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+            <Typography component="h2" variant="h6" color="black" gutterBottom>
                 {config.title} 
             </Typography>
             <Typography component="p" variant="h4">

@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import WeatherChart from './components/WeatherChart';
 import ControlPanel from './components/ControlPanel';
 import { useEffect, useState } from 'react';
-import AnimatedGif from './components/AnimatedGif'
+import videoBG from './assets/videoBG.mp4'
 
 // https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=94efcdd86dca01d07bbf7e34431dc607
 function App() {
@@ -23,7 +23,7 @@ function App() {
 
 	useEffect(() => {
 
-		(async ()=>{
+		(async () => {
 
 
 			{/* Del LocalStorage, obtiene el valor de las claves openWeatherMap y expiringTime*/ }
@@ -42,7 +42,7 @@ function App() {
              (1) La estampa de tiempo de expiración (expiringTime) es nulo   
              (2) La estampa de tiempo actual es mayor al tiempo de expiración */}
 
-			if (expiringTime === null || nowTime > parseInt(expiringTime)) { 
+			if (expiringTime === null || nowTime > parseInt(expiringTime)) {
 
 
 				{/* Request */ }
@@ -61,7 +61,7 @@ function App() {
 
 			{/* XML Parser */ }
 
-			if (savedTextXML != null) { 
+			if (savedTextXML != null) {
 
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(savedTextXML, "application/xml");
@@ -76,8 +76,8 @@ function App() {
 
 				let city = xml.getElementsByTagName("name")[0].innerHTML
 				dataToIndicators.push(["City", "name", city])
-				
-				
+
+
 				let location = xml.getElementsByTagName("location")[1]
 
 				let geobaseid = location.getAttribute("geobaseid")
@@ -133,59 +133,36 @@ function App() {
 
 		})()
 
-	
+
 
 	}, [])
 
 
 	return (
-
-		<Grid container spacing={5}>
-			<Grid xs={12} md={4} lg={12}>
-				<Typography variant="h4" component="h1" gutterBottom>
-					<strong>Guayaquil Weather</strong>
-				</Typography>
-			</Grid>
-			<Grid xs={6} lg={3}>
-				{indicators[0]}
-
-				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
-			</Grid>
-
-			<Grid xs={6} lg={3}>
-				{indicators[1]}
-
-				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
-			</Grid>
-
-			<Grid xs={6} lg={3}>
-				{indicators[2]}
-
-				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
-			</Grid>
-			<Grid xs={6} lg={3}>
-				{indicators[3]}
-
-				{/* <Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} /> */}
-			</Grid>
-
-			<Grid xs={12} md={4} lg={3}>
-				<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
-			</Grid>
-			<Grid xs={12} lg={2}>
-				<ControlPanel />
-			</Grid>
-			<Grid xs={12} lg={10}>
-				<WeatherChart></WeatherChart>
-			</Grid>
-			<Grid xs={12} lg={12}>
-				<BasicTable input={dataTable}></BasicTable>
-			</Grid>
-
-		</Grid>
-
-		
-
+		<div className='main'>
+			<Grid container spacing={5}>
+				{indicators.map((indicator, index) => (
+                    <Grid key={index} xs={6} lg={3}>
+                        {indicator}
+                    </Grid>
+                ))}
+					<Grid xs={6} lg={12}>
+						{indicators[0]}
+					</Grid>
+					<Grid xs={12} md={4} lg={3}>
+						<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
+					</Grid>
+					<Grid xs={12} lg={2}>
+						<ControlPanel />
+					</Grid>
+					<Grid xs={12} lg={10}>
+						<WeatherChart />
+					</Grid>
+					<Grid xs={12} lg={12}>
+						<BasicTable input={dataTable} />
+					</Grid>
+				</Grid>
+		</div>
 	);
 }
 

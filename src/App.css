@@ -1,8 +1,43 @@
 #root {
-  max-width: 1280px;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 auto;
   text-align: center;
+}
+
+
+
+.main {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the video covers the entire area */
+  z-index: -1; /* Ensures the video is behind other content */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Ensures it is above the video but below other content */
+}
+
+.Grid {
+  position: relative;
+  z-index: 1; /* Ensures the grid is above the overlay and video */
+  /* Add padding or margin as needed to separate the content from the edges */
 }
 
 .logo {
