@@ -1,13 +1,13 @@
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import './App.css'
 import Indicator from './components/Indicator';
-import Summary from './components/Summary';
+//import Summary from './components/Summary';
 import BasicTable from './components/BasicTable';
-import { Typography } from '@mui/material';
+//import { Typography } from '@mui/material';
 import WeatherChart from './components/WeatherChart';
 import ControlPanel from './components/ControlPanel';
 import { useEffect, useState } from 'react';
-import videoBG from './assets/videoBG.mp4'
+
 
 // https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=94efcdd86dca01d07bbf7e34431dc607
 function App() {
