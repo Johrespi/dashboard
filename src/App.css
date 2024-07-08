@@ -12,27 +12,14 @@
   position: relative;
   width: 100%;
   height: 100vh; /* Full viewport height */
-
+  background-color: black;
+  background-size: cover;
+ /* overflow: hidden;  
+  /*background: url('../src/assets/guayaquilFondo.jpeg');
+  background-size: cover;*/
 }
 
-.background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the video covers the entire area */
-  z-index: -1; /* Ensures the video is behind other content */
-}
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0; /* Ensures it is above the video but below other content */
-}
 
 .Grid {
   position: relative;

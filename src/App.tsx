@@ -141,24 +141,28 @@ function App() {
 	return (
 		<div className='main'>
 			<Grid container spacing={5}>
-				{indicators.map((indicator, index) => (
-                    <Grid key={index} xs={6} lg={3}>
-                        {indicator}
-                    </Grid>
-                ))}
 					<Grid xs={6} lg={12}>
 						{indicators[0]}
 					</Grid>
-					<Grid xs={12} md={4} lg={3}>
-						<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
+					<Grid xs={6} lg={4}>
+						{indicators[1]}
 					</Grid>
+					<Grid xs={6} lg={4}>
+						{indicators[2]}
+					</Grid>
+					<Grid xs={6} lg={4}>
+						{indicators[3]}
+					</Grid>
+					{/* <Grid xs={12} md={4} lg={3}>
+						<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
+					</Grid> */}
 					<Grid xs={12} lg={2}>
 						<ControlPanel />
 					</Grid>
 					<Grid xs={12} lg={10}>
 						<WeatherChart />
 					</Grid>
-					<Grid xs={12} lg={12}>
+					<Grid xs={12} lg={4}>
 						<BasicTable input={dataTable} />
 					</Grid>
 				</Grid>
