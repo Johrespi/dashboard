@@ -18,6 +18,8 @@ function App() {
 
 	let [dataTable, setDataTable] = useState<{ dateTime: string; windDirection: string }[]>([]);
 
+	let [weatherData, setWeatherData] = useState<{time: string, precipitation: number, humidity: number, cloudiness: number}[]>([]);
+
 	{/* Hook: useEffect */ }
 
 
@@ -128,6 +130,19 @@ function App() {
 
 				setDataTable(dataToShow)
 
+                let weatherDataToShow = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
+                    let fromAttribute = timeElement.getAttribute("from");
+                    let time = fromAttribute ? fromAttribute.split("T")[1] : "";
+                    let precipitation = parseFloat(timeElement.getElementsByTagName("precipitation")[0].getAttribute("probability") || "0");
+                    let humidity = parseInt(timeElement.getElementsByTagName("humidity")[0].getAttribute("value") || "0");
+                    let cloudiness = parseInt(timeElement.getElementsByTagName("clouds")[0].getAttribute("all") || "0");
+
+                    return { time, precipitation, humidity, cloudiness };
+                });
+				
+				setWeatherData(weatherDataToShow.slice(0, 10));
+                
+
 			}//
 
 
@@ -141,11 +156,10 @@ function App() {
 	return (
 		<div className='main'>
 			<Grid container spacing={5}>
-					<Grid xs={6} lg={12}>
-						{indicators[0]}
-					</Grid>
-
-
+				<Grid xs={6} lg={12}>
+					{indicators[0]}
+				</Grid>
+			
 					<Grid xs={6} lg={4} padding={4}>
 						{indicators[1]}
 					</Grid>
@@ -155,22 +169,20 @@ function App() {
 					<Grid xs={6} lg={4} padding={4}>
 						{indicators[3]}
 					</Grid>
-
-
-
-					{/* <Grid xs={12} md={4} lg={3}>
+			
+				{/* <Grid xs={12} md={4} lg={3}>
 						<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
 					</Grid> */}
-					<Grid xs={12} lg={2}>
-						<ControlPanel />
-					</Grid>
-					<Grid xs={12} lg={10}>
-						<WeatherChart />
-					</Grid>
-					<Grid xs={12} lg={4}>
-						<BasicTable input={dataTable} />
-					</Grid>
+				<Grid xs={6} lg={2}>
+					<ControlPanel />
 				</Grid>
+				<Grid xs={6} lg={6}>
+					<WeatherChart weatherData={weatherData}/>
+				</Grid>
+				<Grid xs={6} lg={4}>
+					<BasicTable input={dataTable} />
+				</Grid>
+			</Grid>
 		</div>
 	);
 }

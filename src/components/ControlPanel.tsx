@@ -52,20 +52,22 @@ export default function ControlPanel() {
             sx={{
                 p: 2,
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                background:'linear-gradient(to right, #74ABDB, skyblue)',
+                borderRadius: 10,
             }}
         >
 
 
 
-            <Typography mb={2} component="h3" variant="h6" color="primary">
+            <Typography mb={2} component="h3" variant="h6" color="black" sx={{fontWeight: 'bold'}}>
                 Variables Meteorológicas
             </Typography>
 
             <Box sx={{ minWidth: 120 }}>
 
                 <FormControl fullWidth>
-                    <InputLabel id="simple-select-label">Variables</InputLabel>
+                    <InputLabel id="simple-select-label" sx={{color: 'black', fontWeight: 'bold'}}>Variables</InputLabel>
                     <Select
                         labelId="simple-select-label"
                         id="simple-select"

@@ -1,7 +1,18 @@
 import { Chart } from "react-google-charts";
 import Paper from '@mui/material/Paper';
 
-export default function WeatherChart() {
+interface WeatherData {
+    time: string;
+    precipitation: number;
+    humidity: number;
+    cloudiness: number;
+}
+
+interface WeatherChartProps {
+    weatherData: WeatherData[];
+}
+
+export default function WeatherChart( { weatherData }: WeatherChartProps ) {
 
     {/* Configuración */}
 
@@ -16,13 +27,12 @@ export default function WeatherChart() {
 
     const data = [
         ["Hora", "Precipitación", "Humedad", "Nubosidad"],
-        ["03:00", 13, 78, 75],
-        ["06:00", 4, 81, 79],
-        ["09:00", 7, 82, 69],
-        ["12:00", 3, 73, 62],
-        ["15:00", 4, 66, 75],
-        ["18:00", 6, 64, 84],
-        ["21:00", 5, 77, 99]
+        ...weatherData.map((item: WeatherData) => [
+            item.time,
+            item.precipitation,
+            item.humidity,
+            item.cloudiness
+        ])
     ];
 
     {/* JSX */}
