@@ -44,13 +44,12 @@ export default function BasicTable(input: BasicTableProps) {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650,               
-             backgroundColor: 'skyblue',
-              background: 'linear-gradient(to right, skyblue, white)',}} aria-label="simple table">
+      <Table sx={{ maxWidth: 650,               
+              background: 'linear-gradient(to right, #74ABDB, skyblue)'}} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Date and Time</TableCell>
-            <TableCell align="justify">Wind Direction</TableCell>
+            <TableCell align="justify"> Hora</TableCell>
+            <TableCell align="center">Dirección del viento</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -59,7 +58,7 @@ export default function BasicTable(input: BasicTableProps) {
               <TableCell component="th" scope="row">
                 {row.dateTime}
               </TableCell>
-              <TableCell align="justify">{row.windDirection}</TableCell>
+              <TableCell align="center">{row.windDirection}</TableCell>
             </TableRow>
           ))}
         </TableBody>

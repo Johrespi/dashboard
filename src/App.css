@@ -1,3 +1,19 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+.indicadores{
+  border-radius: 50%;
+}
+
 #root {
   width: 100%;
   height: 100%;
@@ -6,25 +22,16 @@
   text-align: center;
 }
 
-
-
 .main {
   position: relative;
   width: 100%;
-  height: 100vh; /* Full viewport height */
-  background-color: black;
-  background-size: cover;
- /* overflow: hidden;  
-  /*background: url('../src/assets/guayaquilFondo.jpeg');
-  background-size: cover;*/
+  min-height: 100vh; /* Full viewport height */
+
 }
-
-
 
 .Grid {
   position: relative;
-  z-index: 1; /* Ensures the grid is above the overlay and video */
-  /* Add padding or margin as needed to separate the content from the edges */
+  z-index: 2; /* Ensures the grid is above the background */
 }
 
 .logo {

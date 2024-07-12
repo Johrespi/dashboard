@@ -75,19 +75,19 @@ function App() {
 				{/* Análisis del XML */ }
 
 				let city = xml.getElementsByTagName("name")[0].innerHTML
-				dataToIndicators.push(["City", "name", city])
+				dataToIndicators.push(["City", "", city])
 
 
 				let location = xml.getElementsByTagName("location")[1]
 
 				let geobaseid = location.getAttribute("geobaseid")
-				dataToIndicators.push(["Location", "geobaseid", geobaseid])
+				dataToIndicators.push(["Location GeoBase", "", geobaseid])
 
 				let latitude = location.getAttribute("latitude")
-				dataToIndicators.push(["Location", "Latitude", latitude])
+				dataToIndicators.push(["Latitude", "", latitude])
 
 				let longitude = location.getAttribute("longitude")
-				dataToIndicators.push(["Location", "Longitude", longitude])
+				dataToIndicators.push(["Longitude", "", longitude])
 
 				console.log(dataToIndicators)
 
@@ -144,15 +144,20 @@ function App() {
 					<Grid xs={6} lg={12}>
 						{indicators[0]}
 					</Grid>
-					<Grid xs={6} lg={4}>
+
+
+					<Grid xs={6} lg={4} padding={4}>
 						{indicators[1]}
 					</Grid>
-					<Grid xs={6} lg={4}>
+					<Grid xs={6} lg={4} padding={4}>
 						{indicators[2]}
 					</Grid>
-					<Grid xs={6} lg={4}>
+					<Grid xs={6} lg={4} padding={4}>
 						{indicators[3]}
 					</Grid>
+
+
+
 					{/* <Grid xs={12} md={4} lg={3}>
 						<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
 					</Grid> */}
