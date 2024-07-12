@@ -55,6 +55,7 @@ export default function ControlPanel() {
                 flexDirection: 'column',
                 background:'linear-gradient(to right, #74ABDB, skyblue)',
                 borderRadius: 10,
+                marginTop: 10,
             }}
         >
 

@@ -42,7 +42,9 @@ export default function WeatherChart( { weatherData }: WeatherChartProps ) {
             sx={{
                 p: 2,
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                background: 'linear-gradient(to right, #74ABDB, skyblue)',
+                borderRadius: 5
             }}
         >
             <Chart
@@ -52,6 +54,7 @@ export default function WeatherChart( { weatherData }: WeatherChartProps ) {
                 height="400px"
                 options={options}
                 legendToggle
+                
         />
         </Paper>
     )
