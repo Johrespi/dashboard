@@ -6,6 +6,10 @@ import WeatherChart from './components/WeatherChart';
 import Summary from './components/Summary';
 import ControlPanel from './components/ControlPanel';
 import { useEffect, useState } from 'react';
+import sun from '../src/assets/sun.png';
+import cloudy from '../src/assets/cloudy.png';
+import overcast from '../src/assets/overcast.png';
+import temperature from '../src/assets/high-temperature.png';
 
 interface WeatherData {
 	time: string;
@@ -22,8 +26,14 @@ interface SummaryData {
 }
 
 function App() {
+	const [summaryData, setSummaryData] = useState<SummaryData>({
+        temperature: 0,
+        feelsLike: 0,
+        pressure: 0,
+        cloudiness: 0,
+    });
 	const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
-	const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
+
 	const [indicators, setIndicators] = useState<JSX.Element[]>([]);
 	const [dataTable, setDataTable] = useState<{ dateTime: string; windDirection: string }[]>([]);
 
@@ -92,7 +102,7 @@ function App() {
 						cloudiness: cloudiness
 					});
 
-					if (index === 0) { // Assuming the first <time> element is used for summary data
+					if (index === 0) {
 						let temperature = parseFloat(timeElement.getElementsByTagName("temperature")[0].getAttribute("value") || "0") - 273.15;
 						let feelsLike = parseFloat(timeElement.getElementsByTagName("feels_like")[0].getAttribute("value") || "0") - 273.15;
 						let pressure = parseFloat(timeElement.getElementsByTagName("pressure")[0].getAttribute("value") || "0");
@@ -130,6 +140,16 @@ function App() {
 		})()
 	}, []);
 
+	const selectImage = (cloudiness: number) => {
+		if (cloudiness > 40) {
+			return cloudy;
+		} else if (cloudiness > 75) {
+			return overcast;
+		} else {
+			return sun;
+		}
+	}
+
 	return (
 		<div className='main'>
 			<Grid container spacing={5}>
@@ -146,19 +166,34 @@ function App() {
 					{indicators[3]}
 				</Grid>
 
-				{summaryData && (
-					<Grid xs={12} lg={12}>
-						<Summary summaryData={summaryData} />
-					</Grid>
-				)}
-				<Grid xs={12} lg={2}>
-					<ControlPanel />
+				<Grid xs={6} lg={4}>
+					<Summary
+						title="Temperatura y Nubosidad"
+						value1={`${summaryData.temperature.toFixed(2)} °C`}
+						label1="Temperatura"
+						value2={`${summaryData.cloudiness.toFixed(2)} %`}
+						label2="Nubosidad"
+						image={selectImage(summaryData.cloudiness)} // Elige la imagen según la nubosidad
+					/>
 				</Grid>
-				<Grid xs={12} lg={6}>
-					<WeatherChart weatherData={weatherData} />
+				<Grid xs={6} lg={4}>
+					<Summary
+						title="Sensación Térmica y Presión"
+						value1={`${summaryData.feelsLike.toFixed(2)} °C`}
+						label1="Sensación Térmica"
+						value2={`${summaryData.pressure.toFixed(2)} hPa`}
+						label2="Presión"
+						image={temperature}
+					/>
 				</Grid>
 				<Grid xs={12} lg={4}>
 					<BasicTable input={dataTable} />
+				</Grid>
+				<Grid xs={12} lg={4}>
+					<ControlPanel />
+				</Grid>
+				<Grid xs={12} lg={8}>
+					<WeatherChart weatherData={weatherData} />
 				</Grid>
 			</Grid>
 		</div>

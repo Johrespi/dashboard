@@ -1,64 +1,52 @@
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 
-import clearSkyImage from '../assets/sun.png';
-import cloudyImage from '../assets/cloudy.png';
-import overcastImage from '../assets/overcast.png';
-
-interface SummaryData {
-  temperature: number;
-  feelsLike: number;
-  pressure: number;
-  cloudiness: number;
-}
+//import sun from '../assets/sun.png';
+//import cloudy from '../assets/cloudy.png'; // Asegúrate de agregar imágenes adecuadas
 
 interface SummaryProps {
-  summaryData: SummaryData;
+    title: string;
+    value1: string;
+    label1: string;
+    value2: string;
+    label2: string;
+    image: string;
 }
 
-const getImage = (cloudiness: number) => {
-  if (cloudiness < 20) {
-    return clearSkyImage;
-  } else if (cloudiness < 80) {
-    return cloudyImage;
-  } else {
-    return overcastImage;
-  }
+const Summary: React.FC<SummaryProps> = ({ title, value1, label1, value2, label2, image }) => {
+    return (
+        <Card sx={{ maxWidth: 345, background: 'linear-gradient(to right, #74ABDB, skyblue)', marginLeft: 15, borderRadius: 10}}>
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    height="380"
+                    image={image}
+                    alt={title}
+                />
+                <CardContent>
+                    <Typography gutterBottom component="h2" variant="h6" color="primary">
+                        {title}
+                    </Typography>
+                    <Typography component="p" variant="h4">
+                        {value1}
+                    </Typography>
+                    <Typography color="text.secondary" sx={{ flex: 1 }}>
+                        {label1}
+                    </Typography>
+                    <Typography component="p" variant="h4">
+                        {value2}
+                    </Typography>
+                    <Typography color="text.secondary" sx={{ flex: 1 }}>
+                        {label2}
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    );
 }
 
-export default function Summary({ summaryData }: SummaryProps) {
-  const { temperature, feelsLike, pressure, cloudiness } = summaryData;
-
-  return (
-    <Card sx={{ maxWidth: 345, backgroundColor: 'white', borderRadius: 10 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="350"
-          image={getImage(cloudiness) }
-          alt="Weather"
-        />
-        <CardContent>
-          <Typography gutterBottom component="h2" variant="h6" color="primary">
-            Resumen del Clima
-          </Typography>
-          <Typography component="p" variant="h6">
-            Temperatura: {temperature.toFixed(2)} °C
-          </Typography>
-          <Typography component="p" variant="h6">
-            Sensación Térmica: {feelsLike.toFixed(2)} °C
-          </Typography>
-          <Typography component="p" variant="h6">
-            Presión: {pressure} hPa
-          </Typography>
-          <Typography component="p" variant="h6">
-            Nubosidad: {cloudiness} %
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
-}
+export default Summary;

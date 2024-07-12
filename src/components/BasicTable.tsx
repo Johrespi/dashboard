@@ -25,7 +25,7 @@ export default function BasicTable(input: BasicTableProps) {
   }, [input]);
 
   return (
-    <TableContainer component={Paper} style={{ borderRadius: 30, maxWidth: 650 }}>
+    <TableContainer component={Paper} style={{ borderRadius: 30, maxWidth: 650, background: 'transparent' }}>
       <Table sx={{maxWidth: 650, background: 'linear-gradient(to right, #74ABDB, skyblue)'}} aria-label="simple table">
         <TableHead >
           <TableRow>
