@@ -1,114 +1,78 @@
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import './App.css'
+import './App.css';
 import Indicator from './components/Indicator';
-//import Summary from './components/Summary';
 import BasicTable from './components/BasicTable';
-//import { Typography } from '@mui/material';
 import WeatherChart from './components/WeatherChart';
+import Summary from './components/Summary';
 import ControlPanel from './components/ControlPanel';
 import { useEffect, useState } from 'react';
 
+interface WeatherData {
+	time: string;
+	precipitation: number;
+	humidity: number;
+	cloudiness: number;
+}
 
-// https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=94efcdd86dca01d07bbf7e34431dc607
+interface SummaryData {
+	temperature: number;
+	feelsLike: number;
+	pressure: number;
+	cloudiness: number;
+}
+
 function App() {
-
-	{/* Variable de estado y función de actualización */ }
-
-	let [indicators, setIndicators] = useState<JSX.Element[]>([])
-
-	let [dataTable, setDataTable] = useState<{ dateTime: string; windDirection: string }[]>([]);
-
-	let [weatherData, setWeatherData] = useState<{time: string, precipitation: number, humidity: number, cloudiness: number}[]>([]);
-
-	{/* Hook: useEffect */ }
-
+	const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
+	const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
+	const [indicators, setIndicators] = useState<JSX.Element[]>([]);
+	const [dataTable, setDataTable] = useState<{ dateTime: string; windDirection: string }[]>([]);
 
 	useEffect(() => {
-
 		(async () => {
-
-
-			{/* Del LocalStorage, obtiene el valor de las claves openWeatherMap y expiringTime*/ }
-
 			let savedTextXML = localStorage.getItem("openWeatherMap")
 			let expiringTime = localStorage.getItem("expiringTime")
 
-			{/* Diferencia de tiempo */ }
 			let hours = 1
 			let delay = hours * 3600000
-
-			{/* Estampa de tiempo actual */ }
 			let nowTime = (new Date()).getTime();
 
-			{/* Realiza la petición asicrónica cuando: 
-             (1) La estampa de tiempo de expiración (expiringTime) es nulo   
-             (2) La estampa de tiempo actual es mayor al tiempo de expiración */}
-
 			if (expiringTime === null || nowTime > parseInt(expiringTime)) {
-
-
-				{/* Request */ }
-
 				let API_KEY = "94efcdd86dca01d07bbf7e34431dc607"
 				let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=${API_KEY}`);
-				const savedTextXML = await response.text();
-
-				{/* En el LocalStorage, almacena texto en la clave openWeatherMap y la estampa de tiempo de expiración */ }
+				savedTextXML = await response.text();
 
 				localStorage.setItem("openWeatherMap", savedTextXML)
 				localStorage.setItem("expiringTime", (nowTime + delay).toString())
-
 			}
 
-
-			{/* XML Parser */ }
-
 			if (savedTextXML != null) {
-
 				const parser = new DOMParser();
 				const xml = parser.parseFromString(savedTextXML, "application/xml");
 
+				const dataToIndicators: any[] = [];
+				let city = xml.getElementsByTagName("name")[0].innerHTML;
+				dataToIndicators.push(["City", "", city]);
 
+				let location = xml.getElementsByTagName("location")[1];
+				let geobaseid = location.getAttribute("geobaseid");
+				dataToIndicators.push(["Location GeoBase", "", geobaseid]);
 
-				{/* Arreglo con los resultados */ }
+				let latitude = location.getAttribute("latitude");
+				dataToIndicators.push(["Latitude", "", latitude]);
 
-				let dataToIndicators = new Array()
+				let longitude = location.getAttribute("longitude");
+				dataToIndicators.push(["Longitude", "", longitude]);
 
-				{/* Análisis del XML */ }
-
-				let city = xml.getElementsByTagName("name")[0].innerHTML
-				dataToIndicators.push(["City", "", city])
-
-
-				let location = xml.getElementsByTagName("location")[1]
-
-				let geobaseid = location.getAttribute("geobaseid")
-				dataToIndicators.push(["Location GeoBase", "", geobaseid])
-
-				let latitude = location.getAttribute("latitude")
-				dataToIndicators.push(["Latitude", "", latitude])
-
-				let longitude = location.getAttribute("longitude")
-				dataToIndicators.push(["Longitude", "", longitude])
-
-				console.log(dataToIndicators)
-
-				{/* Renderice el arreglo de resultados en un arreglo de elementos Indicator */ }
-
-				let indicatorsElements = Array.from(dataToIndicators).map(
+				let indicatorsElements = dataToIndicators.map(
 					(element) => <Indicator title={element[0]} subtitle={element[1]} value={element[2]} />
-				)
+				);
 
-				{/* Actualización de la variable de estado mediante la función de actualización */ }
+				setIndicators(indicatorsElements);
 
-				setIndicators(indicatorsElements)
+				const weatherDataArray: WeatherData[] = [];
+				const summaryDataArray: SummaryData[] = [];
 
-				{/* Arreglo con los resultados */ }
-
-
-				let dataToShow = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
-
-
+				Array.from(xml.getElementsByTagName("time")).forEach((timeElement, index) => {
 					let fromAttribute = timeElement.getAttribute("from");
 					let toAttribute = timeElement.getAttribute("to");
 
@@ -117,41 +81,54 @@ function App() {
 						" - " +
 						(toAttribute ? toAttribute.split("T")[1] : "");
 
+					let precipitation = parseFloat(timeElement.getElementsByTagName("precipitation")[0].getAttribute("probability") || "0");
+					let humidity = parseFloat(timeElement.getElementsByTagName("humidity")[0].getAttribute("value") || "0");
+					let cloudiness = parseFloat(timeElement.getElementsByTagName("clouds")[0].getAttribute("all") || "0");
 
-					let windDirection = timeElement.getElementsByTagName("windDirection")[0].getAttribute("deg") + " " + timeElement.getElementsByTagName("windDirection")[0].getAttribute("code")
+					weatherDataArray.push({
+						time: dateTime,
+						precipitation: precipitation,
+						humidity: humidity,
+						cloudiness: cloudiness
+					});
+
+					if (index === 0) { // Assuming the first <time> element is used for summary data
+						let temperature = parseFloat(timeElement.getElementsByTagName("temperature")[0].getAttribute("value") || "0") - 273.15;
+						let feelsLike = parseFloat(timeElement.getElementsByTagName("feels_like")[0].getAttribute("value") || "0") - 273.15;
+						let pressure = parseFloat(timeElement.getElementsByTagName("pressure")[0].getAttribute("value") || "0");
+						let cloudinessValue = parseFloat(timeElement.getElementsByTagName("clouds")[0].getAttribute("all") || "0");
+
+						summaryDataArray.push({
+							temperature: temperature,
+							feelsLike: feelsLike,
+							pressure: pressure,
+							cloudiness: cloudinessValue
+						});
+					}
+				});
+
+				setWeatherData(weatherDataArray);
+				setSummaryData(summaryDataArray[0]);
+
+				let dataToShow = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
+					let fromAttribute = timeElement.getAttribute("from");
+					let toAttribute = timeElement.getAttribute("to");
+
+					let dateTime =
+						(fromAttribute ? fromAttribute.split("T")[1] : "") +
+						" - " +
+						(toAttribute ? toAttribute.split("T")[1] : "");
+
+					let windDirection = timeElement.getElementsByTagName("windDirection")[0].getAttribute("deg") + " " + timeElement.getElementsByTagName("windDirection")[0].getAttribute("code");
 
 					return { "dateTime": dateTime, "windDirection": windDirection }
+				});
 
-				})
-
-				dataToShow = dataToShow.slice(0, 10)
-
-				{/* Actualización de la variable de estado mediante la función de actualización */ }
-
-				setDataTable(dataToShow)
-
-                let weatherDataToShow = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
-                    let fromAttribute = timeElement.getAttribute("from");
-                    let time = fromAttribute ? fromAttribute.split("T")[1] : "";
-                    let precipitation = parseFloat(timeElement.getElementsByTagName("precipitation")[0].getAttribute("probability") || "0");
-                    let humidity = parseInt(timeElement.getElementsByTagName("humidity")[0].getAttribute("value") || "0");
-                    let cloudiness = parseInt(timeElement.getElementsByTagName("clouds")[0].getAttribute("all") || "0");
-
-                    return { time, precipitation, humidity, cloudiness };
-                });
-				
-				setWeatherData(weatherDataToShow.slice(0, 10));
-                
-
-			}//
-
-
+				dataToShow = dataToShow.slice(0, 10);
+				setDataTable(dataToShow);
+			}
 		})()
-
-
-
-	}, [])
-
+	}, []);
 
 	return (
 		<div className='main'>
@@ -159,27 +136,28 @@ function App() {
 				<Grid xs={6} lg={12}>
 					{indicators[0]}
 				</Grid>
-			
-					<Grid xs={6} lg={4} padding={4}>
-						{indicators[1]}
+				<Grid xs={6} lg={4} padding={4}>
+					{indicators[1]}
+				</Grid>
+				<Grid xs={6} lg={4} padding={4}>
+					{indicators[2]}
+				</Grid>
+				<Grid xs={6} lg={4} padding={4}>
+					{indicators[3]}
+				</Grid>
+
+				{summaryData && (
+					<Grid xs={12} lg={12}>
+						<Summary summaryData={summaryData} />
 					</Grid>
-					<Grid xs={6} lg={4} padding={4}>
-						{indicators[2]}
-					</Grid>
-					<Grid xs={6} lg={4} padding={4}>
-						{indicators[3]}
-					</Grid>
-			
-				{/* <Grid xs={12} md={4} lg={3}>
-						<Indicator title='Precipitación' subtitle='Probabilidad' value={0.13} />
-					</Grid> */}
-				<Grid xs={6} lg={2}>
+				)}
+				<Grid xs={12} lg={2}>
 					<ControlPanel />
 				</Grid>
-				<Grid xs={6} lg={6}>
-					<WeatherChart weatherData={weatherData}/>
+				<Grid xs={12} lg={6}>
+					<WeatherChart weatherData={weatherData} />
 				</Grid>
-				<Grid xs={6} lg={4}>
+				<Grid xs={12} lg={4}>
 					<BasicTable input={dataTable} />
 				</Grid>
 			</Grid>
@@ -187,4 +165,4 @@ function App() {
 	);
 }
 
-export default App
+export default App;

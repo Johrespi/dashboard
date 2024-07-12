@@ -23,9 +23,9 @@ export default function ControlPanel() {
     {/* Datos de los elementos del Select */ }
 
     let items = [
-        { "name": "Precipitación", "description": "Cantidad de agua, en forma de lluvia, nieve o granizo, que cae sobre una superficie en un período específico." },
-        { "name": "Humedad", "description": "Cantidad de vapor de agua presente en el aire, generalmente expresada como un porcentaje." },
-        { "name": "Nubosidad", "description": "Grado de cobertura del cielo por nubes, afectando la visibilidad y la cantidad de luz solar recibida." }
+        { "name": "🌧️ Precipitación 🌧️", "description": "Cantidad de agua, en forma de lluvia, nieve o granizo, que cae sobre una superficie en un período específico." },
+        { "name": "💦 Humedad 💦", "description": "Cantidad de vapor de agua presente en el aire, generalmente expresada como un porcentaje." },
+        { "name": "☁️ Nubosidad ☁️", "description": "Grado de cobertura del cielo por nubes, afectando la visibilidad y la cantidad de luz solar recibida." }
     ]
 
     let options = items.map((item, key) => <MenuItem key={key} value={key}>{item["name"]}</MenuItem>)
@@ -65,18 +65,26 @@ export default function ControlPanel() {
                 Variables Meteorológicas
             </Typography>
 
-            <Box sx={{ minWidth: 120 }}>
+            <Box sx={{ minWidth: 120, background: 'white' }}>
 
                 <FormControl fullWidth>
-                    <InputLabel id="simple-select-label" sx={{color: 'black', fontWeight: 'bold'}}>Variables</InputLabel>
+              
                     <Select
                         labelId="simple-select-label"
                         id="simple-select"
                         label="Variables"
                         defaultValue='-1'
                         onChange={handleChange}
+                        MenuProps={{
+                            PaperProps: {
+                              sx: {
+                                background: 'white', 
+                              },
+                            },
+                          }}
+                        
                     >
-                        <MenuItem key="-1" value="-1" disabled>Seleccione una variable</MenuItem>
+                        <MenuItem key="-1" value="-1" disabled >Seleccione una variable </MenuItem>
 
                         {options}
 
