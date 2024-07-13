@@ -10,32 +10,23 @@ interface WeatherData {
 
 interface WeatherChartProps {
     weatherData: WeatherData[];
+    selectedVariable: keyof WeatherData;
 }
 
-export default function WeatherChart( { weatherData }: WeatherChartProps ) {
-
-    {/* Configuración */}
-
-    let options = {
-        title: "Precipitación, Humedad y Nubosidad vs Hora",
+export default function WeatherChart({ weatherData, selectedVariable }: WeatherChartProps) {
+    const options = {
+        title: `${selectedVariable.charAt(0).toUpperCase() + selectedVariable.slice(1)} vs Hora`,
         curveType: "function",
         legend: { position: "right" },
-        
-    }
-
-    {/* Datos de las variables meteorológicas */}
+    };
 
     const data = [
-        ["Hora", "Precipitación", "Humedad", "Nubosidad"],
+        ["Hora", selectedVariable.charAt(0).toUpperCase() + selectedVariable.slice(1)],
         ...weatherData.map((item: WeatherData) => [
             item.time,
-            item.precipitation,
-            item.humidity,
-            item.cloudiness
+            item[selectedVariable]
         ])
     ];
-
-    {/* JSX */}
 
     return (
         <Paper
@@ -54,8 +45,8 @@ export default function WeatherChart( { weatherData }: WeatherChartProps ) {
                 height="400px"
                 options={options}
                 legendToggle
-                
-        />
+            />
         </Paper>
-    )
-}	
+    );
+}
+
