@@ -143,10 +143,10 @@ function App() {
     }, []);
 
     const selectImage = (cloudiness: number, temperature:number) => {
-        if (cloudiness >= 40 && cloudiness < 75 && temperature < 25) {
-            return cloudy;
-        } else if (cloudiness > 75) {
+        if (cloudiness > 50) {
             return overcast;
+        } else if (cloudiness >= 20 && temperature < 25) {
+            return cloudy;
         } else {
             return sun;
         }
