@@ -1,6 +1,5 @@
 import { Chart } from "react-google-charts";
 import Paper from '@mui/material/Paper';
-import { colors } from "@mui/material";
 
 interface WeatherData {
     time: string;
@@ -34,9 +33,7 @@ export default function WeatherChart({ weatherData, selectedVariable }: WeatherC
             color = 'darkcyan'
             break;
 
-
     }
-
 
 
     const options = {
