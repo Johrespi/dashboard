@@ -1,5 +1,6 @@
 import { Chart } from "react-google-charts";
 import Paper from '@mui/material/Paper';
+import { colors } from "@mui/material";
 
 interface WeatherData {
     time: string;
@@ -14,10 +15,37 @@ interface WeatherChartProps {
 }
 
 export default function WeatherChart({ weatherData, selectedVariable }: WeatherChartProps) {
+
+    let variable = '';
+    let color = '';
+
+    switch (selectedVariable.charAt(0).toUpperCase() + selectedVariable.slice(1)) {
+
+        case 'Precipitation':
+            variable = 'Precipitación';
+            color = 'hotpink'
+            break;
+        case 'Humidity':
+            variable = 'Humedad';
+            color = 'brown'
+            break;
+        case 'Cloudiness':
+            variable = 'Nubosidad';
+            color = 'darkcyan'
+            break;
+
+
+    }
+
+
+
     const options = {
-        title: `${selectedVariable.charAt(0).toUpperCase() + selectedVariable.slice(1)} vs Hora`,
+        title: `${variable} vs Hora`,
         curveType: "function",
         legend: { position: "right" },
+        series: {
+            0: { color: color }
+        }
     };
 
     const data = [
@@ -45,6 +73,7 @@ export default function WeatherChart({ weatherData, selectedVariable }: WeatherC
                 height="400px"
                 options={options}
                 legendToggle
+
             />
         </Paper>
     );

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Select, MenuItem, SelectChangeEvent, FormControl, Typography, Box, Paper } from '@mui/material';
 
 interface ControlPanelProps {
@@ -24,12 +24,13 @@ export default function ControlPanel({ selectedVariable, setSelectedVariable }: 
 
     const handleChange = (event: SelectChangeEvent<keyof WeatherData>) => {
         const selectedValue = event.target.value as keyof WeatherData;
-        setSelectedVariable(selectedValue);
+        setSelectedVariable(selectedValue);       
 
         if (descriptionRef.current !== null) {
             const selectedItem = items.find(item => item.value === selectedValue);
             descriptionRef.current.innerHTML = selectedItem ? selectedItem.description : "";
         }
+        
     };
 
     return (
@@ -43,7 +44,7 @@ export default function ControlPanel({ selectedVariable, setSelectedVariable }: 
                 marginTop: 10,
                 alignItems: 'center',
                 textAlign: 'center',
-                
+
                
             }}
         >
