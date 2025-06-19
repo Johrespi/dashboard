@@ -18,6 +18,7 @@ interface BasicTableProps {
 
 export default function BasicTable(input: BasicTableProps) {
   // Desestructura el arreglo de entrada para obtener dataToShow
+  // Probar SonarQube
   let [rows, setRows] = useState<DataRow[]>([]);
 
   useEffect(() => {
