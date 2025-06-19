@@ -5,8 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 
-//import sun from '../assets/sun.png';
-//import cloudy from '../assets/cloudy.png'; // Asegúrate de agregar imágenes adecuadas
 
 interface SummaryProps {
     title: string;
