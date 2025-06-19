@@ -76,7 +76,7 @@ function App() {
                 dataToIndicators.push(["Longitude", "", longitude]);
 
                 let indicatorsElements = dataToIndicators.map(
-                    (element) => <Indicator title={element[0]} subtitle={element[1]} value={element[2]} />
+                    (element) => <Indicator key={element[0]} title={element[0]} subtitle={element[1]} value={element[2]} />
                 );
 
                 setIndicators(indicatorsElements);
