@@ -68,8 +68,8 @@ export default function ControlPanel({ selectedVariable, setSelectedVariable }: 
                         }}
                     >
                         <MenuItem value="" disabled>Seleccione una variable</MenuItem>
-                        {items.map((item, key) => (
-                            <MenuItem key={key} value={item.value}>{item.name}</MenuItem>
+                        {items.map((item) => (
+                            <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
