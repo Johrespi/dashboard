@@ -1,4 +1,3 @@
-// https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=94efcdd86dca01d07bbf7e34431dc607
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Image from '../assets/bandera.png';
